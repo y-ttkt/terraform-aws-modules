@@ -1,7 +1,7 @@
 terraform {
   required_version = "1.10.5"
   backend "s3" {
-    bucket = "training-terraform"
+    bucket = "training-terraform-tfstate"
     key    = "terraform.tfstate"
     region = "ap-northeast-1"
   }
