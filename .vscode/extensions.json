@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "hashicorp.terraform",
+    "shardulm94.trailing-spaces",
+    "mosapride.zenkaku",
+    "aws-scripting-guy.cform"
+  ]
+}
