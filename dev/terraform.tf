@@ -6,6 +6,10 @@ terraform {
     region = "ap-northeast-1"
   }
   required_providers {
+    http = {
+      source  = "hashicorp/http"
+      version = "~> 3.0"
+    }
     aws = {
       source  = "hashicorp/aws"
       version = "5.44.0"
@@ -15,6 +19,7 @@ terraform {
 
 data "aws_caller_identity" "current" {}
 
+provider "http" {}
 provider "aws" {
   region = "ap-northeast-1"
   default_tags {
