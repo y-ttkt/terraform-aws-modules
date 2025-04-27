@@ -38,3 +38,21 @@ resource "aws_security_group_rule" "app_ingress_http" {
   to_port           = 80
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+resource "aws_security_group_rule" "app_egress_https" {
+  security_group_id = aws_security_group.app.id
+  type              = "egress"
+  protocol          = "tcp"
+  from_port         = 443
+  to_port           = 443
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "app_egress_http" {
+  security_group_id = aws_security_group.app.id
+  type              = "egress"
+  protocol          = "tcp"
+  from_port         = 80
+  to_port           = 80
+  cidr_blocks       = ["0.0.0.0/0"]
+}
