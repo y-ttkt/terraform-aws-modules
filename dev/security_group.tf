@@ -70,7 +70,7 @@ resource "aws_security_group" "bastion" {
   }
 }
 
-resource "aws_security_group_rule" "app_ingress_ssh" {
+resource "aws_security_group_rule" "bastion_ingress_ssh" {
   security_group_id = aws_security_group.bastion.id
   description       = "SSH from my IP"
   type              = "ingress"

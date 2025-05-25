@@ -58,7 +58,7 @@ data "aws_ssm_parameter" "app" {
 resource "aws_instance" "bastion" {
   ami                         = data.aws_ssm_parameter.bastion.value
   instance_type               = "t2.micro"
-  key_name                    = aws_key_pair.bastion.key_name
+  key_name                    = aws_key_pair.app.key_name
   associate_public_ip_address = false
   disable_api_stop            = false
   disable_api_termination     = false
