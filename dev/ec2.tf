@@ -9,7 +9,7 @@ resource "aws_instance" "app" {
   disable_api_stop            = false
   disable_api_termination     = false
   monitoring                  = false
-  subnet_id                   = aws_subnet.public[index(local.availability_zones, "ap-northeast-1a")].id
+  subnet_id                   = aws_subnet.protected[index(local.availability_zones, "ap-northeast-1a")].id
 
   vpc_security_group_ids = [
     aws_security_group.app.id
