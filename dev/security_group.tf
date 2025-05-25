@@ -12,7 +12,7 @@ resource "aws_security_group" "app" {
 }
 
 resource "aws_security_group_rule" "app_ingress_ssh" {
-  security_group_id = aws_security_group.app.id
+  security_group_id        = aws_security_group.app.id
   description              = "SSH from bastion"
   type                     = "ingress"
   protocol                 = "tcp"
@@ -78,4 +78,13 @@ resource "aws_security_group_rule" "bastion_ingress_ssh" {
   from_port         = 22
   to_port           = 22
   cidr_blocks       = [local.my_ip]
+}
+
+resource "aws_security_group_rule" "bastion_egress_ssh_to_app" {
+  type              = "egress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  security_group_id = aws_security_group.bastion.id
+  description       = "Allow SSH to private EC2 via bastion"
 }
