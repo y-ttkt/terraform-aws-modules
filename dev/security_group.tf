@@ -87,4 +87,6 @@ resource "aws_security_group_rule" "bastion_egress_ssh_to_app" {
   protocol          = "tcp"
   security_group_id = aws_security_group.bastion.id
   description       = "Allow SSH to private EC2 via bastion"
+  #   App EC2 が所属する Security Group へのみ許可する
+  source_security_group_id = aws_security_group.app.id
 }
