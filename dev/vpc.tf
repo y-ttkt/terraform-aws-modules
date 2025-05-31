@@ -69,6 +69,26 @@ resource "aws_subnet" "protected" {
   }
 }
 
+resource "aws_route_table" "protected" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "${local.project}-${local.env}-rt-protected"
+  }
+}
+
+resource "aws_route" "nat_gw" {
+  route_table_id         = aws_route_table.protected.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.main.id
+}
+
+resource "aws_route_table_association" "protected" {
+  count          = length(aws_subnet.protected)
+  subnet_id      = aws_subnet.protected[count.index].id
+  route_table_id = aws_route_table.protected.id
+}
+
 # ===============================================================================
 # private subnet
 # ===============================================================================
