@@ -15,7 +15,7 @@
 ## インストール
 ```bash
 # clone
-git git@github.com:yusuke-takatsu/terraform-aws-modules.git
+git git@github.com:y-ttkt/terraform-aws-modules.git
 
 # 移動
 cd terraform-aws-modules
