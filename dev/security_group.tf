@@ -21,14 +21,14 @@ resource "aws_security_group_rule" "app_ingress_ssh" {
   source_security_group_id = aws_security_group.bastion.id
 }
 
-resource "aws_security_group_rule" "app_ingress_http" {
-  security_group_id = aws_security_group.app.id
-  description       = "http"
-  type              = "ingress"
-  protocol          = "tcp"
-  from_port         = 80
-  to_port           = 80
-  cidr_blocks       = ["0.0.0.0/0"]
+resource "aws_security_group_rule" "app_ingress_alb" {
+  security_group_id        = aws_security_group.app.id
+  description              = "http"
+  type                     = "ingress"
+  protocol                 = "tcp"
+  from_port                = 80
+  to_port                  = 80
+  source_security_group_id = aws_security_group.alb.id
 }
 
 resource "aws_security_group_rule" "app_egress_https" {
@@ -88,5 +88,37 @@ resource "aws_security_group_rule" "bastion_egress_ssh_to_app" {
   security_group_id = aws_security_group.bastion.id
   description       = "Allow SSH to private EC2 via bastion"
   #   App EC2 が所属する Security Group へのみ許可する
+  source_security_group_id = aws_security_group.app.id
+}
+
+# ===============================================================================
+# ALB
+# ===============================================================================
+resource "aws_security_group" "alb" {
+  name        = "${local.project}-${local.env}-sg-alb"
+  description = "security group for ${local.project}-${local.env} alb"
+  vpc_id      = aws_vpc.main.id
+
+  tags = {
+    Name = "${local.project}-${local.env}-sg-alb"
+  }
+}
+
+resource "aws_security_group_rule" "alb_ingress_http" {
+  security_group_id = aws_security_group.alb.id
+  description       = "HTTP from client"
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 80
+  to_port           = 80
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "alb_egress_http" {
+  security_group_id        = aws_security_group.alb.id
+  type                     = "egress"
+  protocol                 = "tcp"
+  from_port                = 80
+  to_port                  = 80
   source_security_group_id = aws_security_group.app.id
 }
